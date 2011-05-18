@@ -11,14 +11,6 @@ extern "C" {
 #include <stdint.h>
 #include "CppUTest/TestHarness.h"
 
-// "virtual" registers to be passed to the timer
-static uint8_t virtualGTCCR;
-static uint8_t virtualTCCR1;
-static uint8_t virtualOCR1A;
-static uint8_t virtualOCR1B;
-static uint8_t virtualTIMSK;
-static uint8_t virtualTCNT1;
-
 static const Timer1Registers timer1Regs = {
     &virtualGTCCR,
     &virtualTCCR1,
