@@ -9,11 +9,13 @@ typedef struct __timer1_regs {
     volatile uint8_t *pTCCR1;
     volatile uint8_t *pOCR1A;
     volatile uint8_t *pOCR1B;
+    volatile uint8_t *pOCR1C;
     volatile uint8_t *pTIMSK;
     volatile uint8_t *pTCNT1;
 } Timer1Registers;
 
 typedef enum __prescalers1 {
+    TIMER1_PRESCALE_64   =             _BV(CS12) | _BV(CS11) | _BV(CS10),
     TIMER1_PRESCALE_128  = _BV(CS13)                                    ,
     TIMER1_PRESCALE_1024 = _BV(CS13)             | _BV(CS11) | _BV(CS10),
 } Timer1Prescale;
@@ -43,5 +45,7 @@ void timer1_incr_ocrb(const uint8_t compare_inc);
 // attaches an interrupt handler for TIMER1_COMPB and sets initial value for
 // OCR1B
 void timer1_attach_interrupt_ocrb(const uint8_t compare_val, void (*handler)(void));
+
+void timer1_enable_ctc(const uint8_t compare_val);
 
 #endif

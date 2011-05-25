@@ -16,6 +16,7 @@ static const Timer1Registers timer1Regs = {
     &virtualTCCR1,
     &virtualOCR1A,
     &virtualOCR1B,
+    &virtualOCR1C,
     &virtualTIMSK,
     &virtualTCNT1,
 };
@@ -127,4 +128,14 @@ TEST(EightBitTinyTimer1, SetRelativeOCRBCompare) {
     
     timer1_incr_ocrb(200);
     BYTES_EQUAL(virtualOCR1B, 210);
+}
+
+TEST(EightBitTinyTimer1, SetClearOnOCRCCompare) {
+    virtualOCR1C = 0;
+    virtualTCCR1 = 0;
+    
+    timer1_enable_ctc(250);
+    
+    BYTES_EQUAL(250,       virtualOCR1C); // OCR1C value set
+    BYTES_EQUAL(B10000000, virtualTCCR1); // CTC1 enabled
 }

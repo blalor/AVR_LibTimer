@@ -17,8 +17,7 @@ void timer1_init(const Timer1Registers *regs, const Timer1Prescale _prescale) {
     registers = regs;
     prescale = _prescale;
     
-    // resets the prescaler (is this really necessary?)
-    *registers->pGTCCR |= _BV(PSR1);
+    timer1_stop();
 }
 
 void timer1_start() {
@@ -51,6 +50,11 @@ void timer1_attach_interrupt_ocrb(const uint8_t counter_val, void (*handler)(voi
     timer1_incr_ocrb(counter_val);
     
     ocrb_handler = handler;
+}
+
+void timer1_enable_ctc(const uint8_t compare_val) {
+    *registers->pOCR1C = compare_val;
+    *registers->pTCCR1 = _BV(CTC1);
 }
 
 void timer1_incr_ocrb(const uint8_t timer_inc) {
