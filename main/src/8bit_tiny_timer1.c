@@ -22,7 +22,7 @@ void timer1_init(const Timer1Registers *regs, const Timer1Prescale _prescale) {
 
 void timer1_start() {
     // set prescaler
-    *registers->pTCCR1 = prescale;
+    *registers->pTCCR1 |= prescale;
 }
 
 void timer1_stop() {
@@ -35,7 +35,7 @@ void timer1_set_counter(const uint8_t counter_val) {
 }
 
 void timer1_attach_interrupt_ocra(const uint8_t counter_val, void (*handler)(void)) {
-    *registers->pTIMSK = _BV(OCIE1A);
+    *registers->pTIMSK |= _BV(OCIE1A);
     timer1_incr_ocra(counter_val);
     
     ocra_handler = handler;
@@ -46,7 +46,7 @@ void timer1_incr_ocra(const uint8_t timer_inc) {
 }
 
 void timer1_attach_interrupt_ocrb(const uint8_t counter_val, void (*handler)(void)) {
-    *registers->pTIMSK = _BV(OCIE1B);
+    *registers->pTIMSK |= _BV(OCIE1B);
     timer1_incr_ocrb(counter_val);
     
     ocrb_handler = handler;
@@ -54,7 +54,7 @@ void timer1_attach_interrupt_ocrb(const uint8_t counter_val, void (*handler)(voi
 
 void timer1_enable_ctc(const uint8_t compare_val) {
     *registers->pOCR1C = compare_val;
-    *registers->pTCCR1 = _BV(CTC1);
+    *registers->pTCCR1 |= _BV(CTC1);
 }
 
 void timer1_incr_ocrb(const uint8_t timer_inc) {

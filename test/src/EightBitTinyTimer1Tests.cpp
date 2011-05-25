@@ -47,7 +47,7 @@ TEST(EightBitTinyTimer1, Initialization) {
 }
 
 TEST(EightBitTinyTimer1, StartTimer) {
-    virtualTCCR1 = 0xFF;
+    virtualTCCR1 = 0;
     
     timer1_start();
     
