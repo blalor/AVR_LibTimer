@@ -1,2 +1,4 @@
 build/
 test/furnace_tests
+*.[ado]
+test/timerlib_tests

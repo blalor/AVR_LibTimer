@@ -3,7 +3,7 @@ SILENCE = @
 ARFLAGS += -c
 
 #---- Outputs ----#
-COMPONENT_NAME = furnace
+COMPONENT_NAME = timerlib
 
 #--- Inputs ----#
 CPP_PLATFORM = Gcc
@@ -22,6 +22,8 @@ CLOCK = 8000000
 CPPUTEST_ADDITIONAL_CFLAGS = -DF_CPU=$(CLOCK)
 CPPUTEST_ADDITIONAL_CXXFLAGS = -DF_CPU=$(CLOCK)
 
+MOCK_AVR_HOME = $(PROJECT_HOME_DIR)/test/support/MockAVR
+
 SRC_DIRS = \
 	$(PROJECT_HOME_DIR)/main/src
 
@@ -31,7 +33,8 @@ TEST_SRC_DIRS = \
 INCLUDE_DIRS = \
   $(CPPUTEST_HOME)/include \
   $(PROJECT_HOME_DIR)/main/src \
-  $(PROJECT_HOME_DIR)/test/src
+  $(PROJECT_HOME_DIR)/test/src \
+  $(MOCK_AVR_HOME)/include
 
 # MOCKS_SRC_DIRS = \
 # 	mocks 
@@ -40,9 +43,15 @@ CPPUTEST_WARNINGFLAGS = -Wall -Wswitch-default -Werror
 CPPUTEST_CFLAGS = -std=c99 
 CPPUTEST_CFLAGS += -Wall -Wstrict-prototypes -pedantic
 LD_LIBRARIES = -lpthread
+# LD_LIBRARIES += -L$(MOCK_AVR_HOME)/ -lMockAVR
   
 include $(CPPUTEST_HOME)/build/MakefileWorker.mk
 
 # bit of a hack; shouldn't really need to declare this dep here…
 $(CPPUTEST_LIB):
 	make -C $(CPPUTEST_HOME) all extensions
+
+$(MOCK_AVR_HOME)/libMockAVR.a:
+	make -C $(MOCK_AVR_HOME) all
+
+$(TEST_TARGET): $(MOCK_AVR_HOME)/libMockAVR.a
