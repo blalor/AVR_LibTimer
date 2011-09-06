@@ -15,8 +15,9 @@ typedef struct __timer1_regs {
 } Timer1Registers;
 
 typedef enum __prescalers1 {
-    TIMER1_PRESCALE_64   =             _BV(CS12) | _BV(CS11) | _BV(CS10),
-    TIMER1_PRESCALE_128  = _BV(CS13)                                    ,
+       TIMER1_PRESCALE_8 =             _BV(CS12)                        ,
+      TIMER1_PRESCALE_64 =             _BV(CS12) | _BV(CS11) | _BV(CS10),
+     TIMER1_PRESCALE_128 = _BV(CS13)                                    ,
     TIMER1_PRESCALE_1024 = _BV(CS13)             | _BV(CS11) | _BV(CS10),
 } Timer1Prescale;
 
