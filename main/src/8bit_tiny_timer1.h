@@ -5,7 +5,6 @@
 #include <stdint.h>
 
 typedef struct __timer1_regs {
-    volatile uint8_t *pGTCCR;
     volatile uint8_t *pTCCR1;
     volatile uint8_t *pOCR1A;
     volatile uint8_t *pOCR1B;

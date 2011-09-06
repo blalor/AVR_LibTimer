@@ -12,7 +12,6 @@ extern "C" {
 #include "CppUTest/TestHarness.h"
 
 static const Timer1Registers timer1Regs = {
-    &virtualGTCCR,
     &virtualTCCR1,
     &virtualOCR1A,
     &virtualOCR1B,
@@ -23,8 +22,7 @@ static const Timer1Registers timer1Regs = {
 
 TEST_GROUP(EightBitTinyTimer1) {
     void setup() {
-        virtualGTCCR = 0;
-        virtualTCCR1 = 0;
+        virtualTCCR1 = 0xFF;
         virtualOCR1A = 0;
         virtualOCR1B = 0;
         virtualTIMSK = 0;
@@ -38,12 +36,11 @@ TEST_GROUP(EightBitTinyTimer1) {
 
 /*
  * Confirm:
- *    GTCCR is set to shut down timer during initialization.
- *    TCCR1 is set to correct prescaler (cpu/1024)
+ *    TCCR1 is set to zero prescaler (cpu/0) to stop timer
  */
 TEST(EightBitTinyTimer1, Initialization) {
     // setup calls init
-    BYTES_EQUAL(B00000010, virtualGTCCR); // PSM1, reset prescaler
+    BYTES_EQUAL(B11110000, virtualTCCR1);
 }
 
 TEST(EightBitTinyTimer1, StartTimer) {
@@ -55,11 +52,11 @@ TEST(EightBitTinyTimer1, StartTimer) {
 }
 
 TEST(EightBitTinyTimer1, StopTimer) {
-    virtualGTCCR = 0;
+    virtualTCCR1 = 0xFF;
     
     timer1_stop();
     
-    BYTES_EQUAL(B00000010, virtualGTCCR);
+    BYTES_EQUAL(B11110000, virtualTCCR1);
 }
 
 /*
